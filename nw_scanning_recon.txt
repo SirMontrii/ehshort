@@ -1,0 +1,282 @@
+============================================================
+PRACTICAL — NETWORK SCANNING & WIRESHARK
+============================================================
+
+STEP 1 — Start Kali Linux
+- Open VMware
+- Start Kali Linux VM
+- Login
+
+------------------------------------------------------------
+
+STEP 2 — Open Terminal
+
+CTRL + ALT + T
+
+------------------------------------------------------------
+
+STEP 3 — Check Internet Connectivity
+
+ping -c 4 google.com
+
+Verify:
+- 4 packets transmitted
+- 4 received
+
+------------------------------------------------------------
+
+STEP 4 — Find Kali Linux IP
+
+ifconfig
+
+If command not found:
+
+sudo apt install net-tools -y
+
+Run again:
+
+ifconfig
+
+Focus on:
+- eth0
+- inet IP address
+
+------------------------------------------------------------
+
+STEP 5 — Check Routing Table
+
+ip route
+
+Verify:
+- default via gateway IP
+
+------------------------------------------------------------
+
+STEP 6 — Find Windows IP
+- Open Windows Command Prompt
+
+ipconfig
+
+Focus on:
+- WiFi IPv4 Address
+- VMware NAT Adapter VMnet8 IP
+
+------------------------------------------------------------
+
+STEP 7 — Understand Network
+- Kali IP
+- VMware Adapter IP
+- VMware NAT Gateway
+
+Verify same network:
+192.168.22.0/24
+
+------------------------------------------------------------
+
+STEP 8 — Test Connectivity
+
+ping -c 4 192.168.22.1
+
+Verify replies received.
+
+------------------------------------------------------------
+
+STEP 9 — View ARP Table
+
+arp -a
+
+Observe:
+- IP addresses
+- MAC addresses
+
+------------------------------------------------------------
+
+STEP 10 — Install Nmap
+
+sudo apt update
+
+sudo apt install nmap -y
+
+Verify:
+
+nmap --version
+
+------------------------------------------------------------
+
+STEP 11 — Discover Active Hosts
+
+nmap -sn 192.168.22.0/24
+
+Verify:
+- Host is up
+
+------------------------------------------------------------
+
+STEP 12 — Scan Open Ports
+
+nmap 192.168.22.1
+
+Observe:
+- PORT
+- STATE
+- SERVICE
+
+------------------------------------------------------------
+
+STEP 13 — Detect Service Versions
+
+nmap -sV 192.168.22.1
+
+------------------------------------------------------------
+
+STEP 14 — Detect Operating System
+
+sudo nmap -O 192.168.22.1
+
+------------------------------------------------------------
+
+STEP 15 — Install Wireshark
+
+sudo apt install wireshark -y
+
+If prompted:
+- Allow non-superusers to capture packets
+- Select YES
+
+------------------------------------------------------------
+
+STEP 16 — Open Wireshark
+
+wireshark
+
+------------------------------------------------------------
+
+STEP 17 — Start Packet Capture
+- Select:
+  eth0
+- Double click eth0
+OR
+- Click blue shark-fin button
+
+------------------------------------------------------------
+
+STEP 18 — Generate Traffic
+- Open browser inside Kali
+- Visit:
+  1. google.com
+  2. youtube.com
+  3. github.com
+
+Browse for 1 minute.
+
+------------------------------------------------------------
+
+STEP 19 — Stop Capture
+- Click RED stop button
+
+------------------------------------------------------------
+
+STEP 20 — Analyze DNS Traffic
+
+dns
+
+Verify:
+- google.com queries
+- youtube.com queries
+
+------------------------------------------------------------
+
+STEP 21 — Analyze TCP Traffic
+
+tcp
+
+Focus on:
+- SYN
+- ACK
+
+------------------------------------------------------------
+
+STEP 22 — Analyze HTTPS Traffic
+
+tls
+
+OR
+
+tcp.port == 443
+
+------------------------------------------------------------
+
+------------------------------------------------------------
+
+STEP 23 — Analyze ICMP Traffic
+
+icmp
+
+Purpose:
+Displays ping packets only.
+
+Observe:
+- Echo Request
+- Echo Reply
+
+------------------------------------------------------------
+
+STEP 24 — Analyze HTTP Traffic
+
+http
+
+Purpose:
+Displays HTTP packets only.
+
+Observe:
+- GET requests
+- Responses from websites
+
+------------------------------------------------------------
+
+STEP 25 — Analyze ARP Traffic
+
+arp
+
+Purpose:
+Displays ARP packets only.
+
+Observe:
+- IP to MAC address mapping
+
+------------------------------------------------------------
+
+STEP 26 — Follow TCP Stream
+- Right click any TCP packet
+- Click:
+  Follow → TCP Stream
+
+Purpose:
+View complete communication between client and server.
+
+------------------------------------------------------------
+
+STEP 27 — Inspect Packet Details
+- Click any packet
+
+Observe:
+1. Source IP
+2. Destination IP
+3. Source Port
+4. Destination Port
+5. Protocol
+6. Packet Length
+7. Info column
+
+============================================================
+UPDATED RESULT
+============================================================
+
+1. Network configuration explored using:
+   ipconfig, ifconfig, arp, ping
+
+2. Active hosts and open ports identified using Nmap
+
+3. DNS, TCP, ICMP, ARP and HTTPS traffic analyzed using Wireshark
+
+4. Packet structures and TCP streams inspected successfully
