@@ -1,0 +1,73 @@
+============================================================
+PRACTICAL — ALTERNATE DATA STREAMS (ADS)
+============================================================
+
+STEP 1 — Open Command Prompt
+- Run CMD as Administrator
+
+------------------------------------------------------------
+
+STEP 2 — Create Working Directory
+
+cd C:\
+
+mkdir ADS_Lab
+
+cd ADS_Lab
+
+------------------------------------------------------------
+
+STEP 3 — Create Normal File
+
+echo This is a normal file. > normal.txt
+
+Verify file:
+
+type normal.txt
+
+------------------------------------------------------------
+
+STEP 4 — Create Hidden ADS Stream
+
+echo Hidden secret data > normal.txt:hidden.txt
+
+Read hidden stream:
+
+more < normal.txt:hidden.txt
+
+------------------------------------------------------------
+
+STEP 5 — View ADS Streams
+
+dir /r
+
+------------------------------------------------------------
+
+STEP 6 — Detect ADS Using PowerShell
+
+powershell -command "Get-Item C:\ADS_Lab\normal.txt -Stream *"
+
+------------------------------------------------------------
+
+STEP 7 — Remove ADS Stream
+
+powershell -command "Remove-Item C:\ADS_Lab\normal.txt -Stream hidden.txt"
+
+------------------------------------------------------------
+
+STEP 8 — Verify Removal
+
+dir /r
+
+============================================================
+RESULT
+============================================================
+
+1. Alternate Data Stream created successfully
+2. Hidden data stored inside ADS
+3. ADS detected using dir /r and PowerShell
+4. Hidden stream removed successfully
+
+============================================================
+END
+============================================================
