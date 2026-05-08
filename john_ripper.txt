@@ -1,0 +1,97 @@
+============================================================
+PRACTICAL — PASSWORD CRACKING USING JOHN & HASHCAT
+============================================================
+
+STEP 1 — Verify Tools
+
+sudo apt install -y john
+sudo apt install -y hashcat
+
+john
+
+hashcat --version
+
+------------------------------------------------------------
+
+STEP 2 — Generate MD5 Hashes
+
+echo -n "password123" | md5sum
+
+echo -n "hello" | md5sum
+
+echo -n "abc123" | md5sum
+
+------------------------------------------------------------
+
+STEP 3 — Save Hashes
+
+echo "482c811da5d5b4bc6d497ffa98491e38" > hashes.txt
+
+echo "5d41402abc4b2a76b9719d911017c592" >> hashes.txt
+
+echo "e99a18c428cb38d5f260853678922e03" >> hashes.txt
+
+Verify file:
+
+cat hashes.txt
+
+------------------------------------------------------------
+
+STEP 4 — Prepare Wordlist
+
+sudo gunzip /usr/share/wordlists/rockyou.txt.gz
+
+Create custom wordlist:
+
+echo -e "password123\nhello\nabc123" > mylist.txt
+
+Verify:
+
+cat mylist.txt
+
+------------------------------------------------------------
+
+STEP 5 — Crack Hashes Using John
+
+john --format=raw-md5 --wordlist=/usr/share/wordlists/rockyou.txt hashes.txt
+
+Show cracked passwords:
+
+john --show --format=raw-md5 hashes.txt
+
+------------------------------------------------------------
+
+STEP 6 — Crack Hashes Using Hashcat
+
+hashcat -m 0 -a 0 hashes.txt mylist.txt --force -O -D 1 -w 1 --kernel-accel 1 --kernel-loops 1
+
+Show cracked hashes:
+
+hashcat -m 0 hashes.txt --show
+
+------------------------------------------------------------
+
+STEP 7 — Verify Results
+
+Expected cracked passwords:
+
+password123
+
+hello
+
+abc123
+
+------------------------------------------------------------
+
+RESULT
+============================================================
+
+1. Generated MD5 hashes successfully
+2. Created hashes.txt and custom wordlist
+3. Cracked hashes using John the Ripper
+4. Cracked hashes using Hashcat
+5. Demonstrated dictionary attack on weak passwords
+
+============================================================
+END
+============================================================
