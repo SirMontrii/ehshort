@@ -1,0 +1,171 @@
+============================================================
+PRACTICAL — ALTERNATE DATA STREAMS (ADS)
+============================================================
+
+STEP 1 — Open Command Prompt
+- Run CMD as Administrator
+
+------------------------------------------------------------
+
+STEP 2 — Create Working Folder
+
+cd C:\
+
+mkdir ADS_Lab
+
+cd ADS_Lab
+
+------------------------------------------------------------
+
+STEP 3 — Create Normal File
+
+echo This is a normal visible file. > normal.txt
+
+------------------------------------------------------------
+
+STEP 4 — Verify File
+
+type normal.txt
+
+dir normal.txt
+
+------------------------------------------------------------
+
+STEP 5 — Create Hidden ADS Stream
+
+echo This is SECRET hidden data inside ADS! > normal.txt:hidden.txt
+
+------------------------------------------------------------
+
+STEP 6 — Verify File Size
+
+dir normal.txt
+
+------------------------------------------------------------
+
+STEP 7 — Read Hidden Stream
+
+more < normal.txt:hidden.txt
+
+------------------------------------------------------------
+
+STEP 8 — Create Another Hidden Stream
+
+echo Attacker's second payload here! > normal.txt:payload2.txt
+
+------------------------------------------------------------
+
+STEP 9 — Create ADS on Folder
+
+echo Hidden in a FOLDER stream > ADS_Lab:folderhidden.txt
+
+more < ADS_Lab:folderhidden.txt
+
+------------------------------------------------------------
+
+STEP 10 — Create Empty Carrier File
+
+echo. > carrier.txt
+
+echo TOP SECRET CONTENT > carrier.txt:secret
+
+type carrier.txt
+
+more < carrier.txt:secret
+
+------------------------------------------------------------
+
+STEP 11 — Hide Executable in ADS
+
+type C:\Windows\System32\calc.exe > normal.txt:malware.exe
+
+------------------------------------------------------------
+
+STEP 12 — Run Hidden Executable
+
+wmic process call create "C:\ADS_Lab\normal.txt:malware.exe"
+
+Alternative:
+
+start "" "C:\ADS_Lab\normal.txt:malware.exe"
+
+------------------------------------------------------------
+
+STEP 13 — View All ADS Streams
+
+dir /r
+
+------------------------------------------------------------
+
+STEP 14 — View ADS for Specific File
+
+dir /r normal.txt
+
+------------------------------------------------------------
+
+STEP 15 — Detect ADS Using PowerShell
+
+powershell -command "Get-Item C:\ADS_Lab\normal.txt -Stream *"
+
+------------------------------------------------------------
+
+STEP 16 — Detect All ADS in Folder
+
+powershell -command "Get-ChildItem C:\ADS_Lab | ForEach-Object { Get-Item $_.FullName -Stream * }"
+
+------------------------------------------------------------
+
+STEP 17 — Read ADS Using PowerShell
+
+powershell -command "Get-Content C:\ADS_Lab\normal.txt -Stream hidden.txt"
+
+------------------------------------------------------------
+
+STEP 18 — Remove Specific ADS
+
+powershell -command "Remove-Item C:\ADS_Lab\normal.txt -Stream hidden.txt"
+
+------------------------------------------------------------
+
+STEP 19 — Verify Removal
+
+dir /r normal.txt
+
+------------------------------------------------------------
+
+STEP 20 — Remove ADS by Copying File
+
+copy normal.txt cleaned_normal.txt
+
+dir /r cleaned_normal.txt
+
+------------------------------------------------------------
+
+STEP 21 — Remove All ADS Streams
+
+powershell -command "Get-Item C:\ADS_Lab\normal.txt -Stream * | Where-Object {$_.Stream -ne ':$DATA'} | Remove-Item"
+
+------------------------------------------------------------
+
+STEP 22 — Final Verification
+
+dir /r C:\ADS_Lab\
+
+------------------------------------------------------------
+
+STEP 23 — Verify Remaining Streams
+
+powershell -command "Get-Item C:\ADS_Lab\normal.txt -Stream *"
+
+============================================================
+RESULT
+============================================================
+
+1. ADS streams created successfully
+2. Hidden data attached to files and folders
+3. ADS detected using dir /r and PowerShell
+4. Hidden streams removed successfully
+
+============================================================
+END
+============================================================
