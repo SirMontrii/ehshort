@@ -37,25 +37,37 @@ more < normal.txt:hidden.txt
 
 ------------------------------------------------------------
 
-STEP 5 — View ADS Streams
+STEP 5 — Hide Executable Inside ADS
+
+type C:\Windows\System32\calc.exe > normal.txt:calc.exe
+
+------------------------------------------------------------
+
+STEP 6 — Run Hidden Executable
+
+wmic process call create "C:\ADS_Lab\normal.txt:calc.exe"
+
+------------------------------------------------------------
+
+STEP 7 — View ADS Streams
 
 dir /r
 
 ------------------------------------------------------------
 
-STEP 6 — Detect ADS Using PowerShell
+STEP 8 — Detect ADS Using PowerShell
 
 powershell -command "Get-Item C:\ADS_Lab\normal.txt -Stream *"
 
 ------------------------------------------------------------
 
-STEP 7 — Remove ADS Stream
+STEP 9 — Remove ADS Stream
 
 powershell -command "Remove-Item C:\ADS_Lab\normal.txt -Stream hidden.txt"
 
 ------------------------------------------------------------
 
-STEP 8 — Verify Removal
+STEP 10 — Verify Removal
 
 dir /r
 
@@ -64,9 +76,10 @@ RESULT
 ============================================================
 
 1. Alternate Data Stream created successfully
-2. Hidden data stored inside ADS
-3. ADS detected using dir /r and PowerShell
-4. Hidden stream removed successfully
+2. Hidden data and executable stored inside ADS
+3. Hidden executable executed successfully
+4. ADS detected using dir /r and PowerShell
+5. Hidden stream removed successfully
 
 ============================================================
 END
