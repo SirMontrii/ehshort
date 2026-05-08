@@ -1,0 +1,129 @@
+============================================================
+PRACTICAL 1 — OWASP JUICE SHOP & ZAP
+============================================================
+
+STEP 1 — Open Terminal
+- Start Kali Linux VM
+- Login
+- Right click Desktop → Open Terminal
+
+------------------------------------------------------------
+
+STEP 2 — Update Packages
+
+sudo apt update
+
+------------------------------------------------------------
+
+STEP 3 — Install Docker
+
+sudo apt install -y docker.io
+
+------------------------------------------------------------
+
+STEP 4 — Start Docker
+
+sudo systemctl start docker
+
+------------------------------------------------------------
+
+STEP 5 — Run Juice Shop
+
+sudo docker run -d -p 3000:3000 bkimminich/juice-shop
+
+------------------------------------------------------------
+
+STEP 6 — Open Juice Shop
+- Open Firefox inside Kali VM
+- Open:
+
+localhost:3000
+
+------------------------------------------------------------
+
+STEP 7 — Install ZAP
+
+sudo apt install zaproxy -y
+
+------------------------------------------------------------
+
+STEP 8 — Launch ZAP
+
+zaproxy &
+
+------------------------------------------------------------
+
+STEP 9 — Start ZAP Session
+- Select:
+  "No, I do not want to persist this session"
+- Click Start
+- Verify:
+  Main Proxy: localhost:8080
+
+------------------------------------------------------------
+
+STEP 10 — Connect ZAP to Juice Shop
+- Click "Manual Explore"
+- Enter:
+
+http://localhost:3000
+
+- Click Launch Browser
+
+------------------------------------------------------------
+
+STEP 11 — XSS Attack
+- Click Search icon
+- Enter:
+
+<iframe src="javascript:alert(`xss`)">
+
+- Press Enter
+- Popup appears showing:
+  xss
+- Click OK
+- Screenshot green DOM XSS banner
+
+------------------------------------------------------------
+
+STEP 12 — Open Login Page
+- Account → Login
+
+------------------------------------------------------------
+
+STEP 13 — SQL Injection
+Email:
+
+' OR 1=1--
+
+Password:
+
+abc
+
+- Click Log In
+- Logged in as:
+  admin@juice-sh.op
+- Take Screenshot
+
+------------------------------------------------------------
+
+STEP 14 — Check ZAP History
+- Open ZAP
+- Go to History tab
+- Open login POST request
+- Open Request tab
+- Verify SQL payload
+- Take Screenshot
+
+============================================================
+RESULT
+============================================================
+
+1. Juice Shop started on localhost:3000
+2. ZAP proxy configured on port 8080
+3. XSS vulnerability demonstrated
+4. SQL Injection login bypass demonstrated
+
+============================================================
+END
+============================================================
